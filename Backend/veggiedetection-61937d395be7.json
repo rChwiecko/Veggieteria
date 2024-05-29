@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "veggiedetection",
+  "private_key_id": "61937d395be72f4e88c9e972fb3d2339cc93bee7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqo6fLEKXXGmCB\nWtSm/caj7UmGXxkLLy6Q/FlNkMay+KAqzi3VdPN1GL0/s3OkHgTgu76N+Ex3UfQO\n9DyW75pCnELnJP0ZjqcJBh9i9Sl3oWCpMQKy8Etac8SopQAC1xP/4XNg3oqs5Jjq\ndW6xT0XKgNQ4Qi0a4mvlPqaorIu3SK6ycu+dsLP16DnUWD14KY/3mfZw7VO95F2O\nJ/Mn6AQwvNtBbXaaQIGEMRs9KaY+RiIMglwo6DOI+cOOVonc370XvbJ1E6v9r8jC\nq6684J5LG0XEQEqpkKFUoPGjJXSHAiGceZ23DVAK0gjMwmUBBwnQqaipcV6ligHs\nGmuamduhAgMBAAECggEAELMU+gLOVBuM+8PVoWUfIk5X3npik01iB4bmv3hOddfu\nptnIMwZvyBMsfDY1+EcGz66YAsFczGWdFrSQ1G2tAV1VD9V3Hp/vGWs7uZ3IGeDV\neqFlA/mPylGfmqiRNHXzi1x3Q/DrjemOTI3DED+zkxKiEkJpsyKbEBOeUE4Ym05s\n/c8XRI1KUGMIAoe28PetmSIa2ZjE3OX6KVh7ZS6Gu9eGJOh5az91qHkvhKpWDWi+\nbBdjDmiWlrzWoDyp9RmTTrn1IiTq5n4qRaHguibXzOZCY7RWB793Ca2c7SgINWSd\nfji8IN1bFpUGuWjEcAV15dr4Zqs9ghh1qFYzYK7O9QKBgQDU7HWuY6y6//77+MkC\nU3G1piOUZnk0cRUptYl5pwlzancVRAC8kGc3ti9sMFh1o6mYPgraQDD4/Z7hia1b\ncFsMyAzZRBQHJQlWtxYPY5ZSvfbiUusLoHdGDTgpJz81qbZLri2QbMahWetXR2q8\nog1UfCFXmN+J3lWnWL6LSe8i5QKBgQDNKT4kbsoxJxyQxF7OY8mzqzYkQ/ccyerA\nPdsVs4YRrD+HAgpBVDQyXiSmJSkh2Ildwfs1Zs8eEo60/e8Ikx00alfLm0SsgOBK\nZgYvrXJUvezJTijXnUfntiU20PA4M6XTrqUL9YJEKZE8Gw+jeFCnnfXC4naK7vC/\nufi7DMFeDQKBgCZtlr+mlaIaWba4K+8TiE40ce9ynyVr01n3vZwLHZWK/XsFDuz5\nUuenJd/sycpRg2ZKrEK/mxcVDvu9kWATYxtnb4o20zaG5KyV1pFoc9TzG/+03171\n0xD9iclDoBDbVF9MTETonOC6DdNuvEDXLni0/n+Ew7NqQSM2zQzuhw5RAoGBAIrc\nbWkva78VH+qEXz8Gn5DyQ3UMY4eiyzdPJqhrmEUB9wWkRdit655jxh6GbG6yJ1fE\nYgllCq7qFJlAfrepC01c5Qu0jijMGgOBRpKirQ3adxhRxKcbl32n9UxC4zTHEGhU\nfvW3OHJ2SA0Mq+sTFlQ9QAimS2ICFAVRFJ9WJNNJAoGAT61DfOZb+iEeA2uTK+d8\nOnGHdQ43RiydklJKlRJnRaliZ7ZtT2u39xai+j0jda6xYQFwcXWMDoZFgknkdK9S\nlDeTiLSspumoefUlWJg1kFoMNwBq4vVgQDHWwZf7w5IeUTaV3gt3snOd0qonVW9y\nana1D1Cqaai9FBIcDxKFRi0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ryanchwiecko10@veggiedetection.iam.gserviceaccount.com",
+  "client_id": "104311415626576421763",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ryanchwiecko10%40veggiedetection.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

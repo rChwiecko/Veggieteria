@@ -1,15 +1,33 @@
 import cv2
+import time
 import mediapipe as mp
-
+from veggiedetection import detect_veggie
 # Initialize MediaPipe Pose and Hands
+
+eating = False
 mp_pose = mp.solutions.pose
 mp_hands = mp.solutions.hands
 pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
 hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-
+coin_count = 0
+intervals = 0
 # Start video capture from the webcam
 cap = cv2.VideoCapture(0)
 
+
+def interval_check(start):
+    global eating, coin_count, intervals
+    if 3*(intervals+1) <= time.time() - start:
+       intervals += 1
+       print(coin_count)
+       if eating:
+           coin_count += 0.1
+           eating = False
+
+
+
+#main event loop for eating session
+start = time.time()
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
@@ -44,16 +62,22 @@ while cap.isOpened():
             if pose_results.pose_landmarks:
                 mouth = pose_results.pose_landmarks.landmark[mp_pose.PoseLandmark.MOUTH_LEFT]
                 distance = ((wrist.x - mouth.x) ** 2 + (wrist.y - mouth.y) ** 2) ** 0.5
-                if distance < 0.2:  # Adjust threshold as necessary
+                if distance < 0.35:  # Adjust threshold as necessary
                     eating_detected = True
 
     # Display eating detection result
-    if eating_detected:
-        cv2.putText(frame, 'Eating Detected', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-        print("cool")
+    # if eating_detected:
+    #     cv2.putText(frame, 'Eating Detected', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    #     print("eating")
+
 
     # Display the frame
     cv2.imshow('Eating Action Detection', frame)
+
+    if eating_detected and detect_veggie(frame):
+        eating = True
+
+    interval_check(start)
 
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
