@@ -3,7 +3,7 @@ import cv2
 from google.cloud import vision
 import numpy as np
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sauce/Veggieteria/Backend/veggiedetection-61937d395be7.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/alexdang/Desktop/Veggieteria/Backend/veggiedetection-61937d395be7.json"
 
 def detect_veggie(image_frame):
     """Detects labels in the image frame and checks for the presence of vegetables."""
