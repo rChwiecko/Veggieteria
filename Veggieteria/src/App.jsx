@@ -6,7 +6,7 @@ const App = () => {
     const [shopSession, setShopSession] = useState(false); 
     const handleSessionClick = () => {
         setLoading(true);
-        fetch('http://127.0.0.1:5000/run_script', {
+        fetch('http://127.0.0.1:5001/run_script', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

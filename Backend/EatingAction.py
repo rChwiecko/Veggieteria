@@ -10,7 +10,7 @@ from substrateinterface.exceptions import SubstrateRequestException
 from veggiedetection import detect_veggie
 
 # Environment setup for Google Cloud Vision
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sauce/Veggieteria/Backend/veggiedetection-61937d395be7.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/alexdang/Desktop/Veggieteria/Backend/veggiedetection-61937d395be7.json"
 
 # Initialize MediaPipe Pose and Hands
 eating = False
