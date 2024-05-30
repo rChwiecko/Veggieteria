@@ -33,4 +33,4 @@ def run_script_endpoint():
         return jsonify({'error': 'Invalid script name'}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

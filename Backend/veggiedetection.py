@@ -30,7 +30,6 @@ def detect_veggie(image_frame):
     'natural foods', 'wild carrot', 'produce', 'potato', 'garlic', 
     'zucchini', 'cauliflower', 'pumpkin', 'peas', 'radish', 'celery', 
     'eggplant']
-    print(labels)
     for label in labels:
         if any(veg in label.description.lower() for veg in vegetable_labels):
             return True
