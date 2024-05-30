@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './App.css';
 
-const socket = io('http://127.0.0.1:5000');
+const socket = io('http://127.0.0.1:5001');
 
 const App = () => {
     const [awaitAddr, changeAwait] = useState(true);
@@ -36,7 +36,7 @@ const App = () => {
 
     const handleSessionClick = () => {
         setLoading(true);
-        fetch('http://127.0.0.1:5000/run_script', {
+        fetch('http://127.0.0.1:5001/run_script', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const App = () => {
         changeAwait(false);
 
         setLoading(true);
-        fetch('http://127.0.0.1:5000/run_script', {
+        fetch('http://127.0.0.1:5001/run_script', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

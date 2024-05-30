@@ -10,7 +10,7 @@ from substrateinterface.exceptions import SubstrateRequestException
 from veggiedetection import detect_veggie
 
 # Environment setup for Google Cloud Vision
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sauce/Veggieteria/Backend/veggiedetection-61937d395be7.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/alexdang/Desktop/Veggieteria/Backend/veggiedetection-61937d395be7.json"
 
 # Initialize MediaPipe Pose and Hands
 eating = False
@@ -85,7 +85,7 @@ initial_balance = check_balance(substrate, asset_id, recipient_address)
 print(f"Initial CarrotCoin balance: {initial_balance}")
 
 # Start video capture from the webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0+cv2.CAP_DSHOW)
 
 def interval_check(start, socketio):
     global eating, coin_count, intervals
@@ -225,4 +225,4 @@ if __name__ == '__main__':
             return jsonify({'error': 'Invalid script name'}), 400
 
     if __name__ == '__main__':
-        socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+        socketio.run(app, host='0.0.0.0', port=5001, debug=True)
