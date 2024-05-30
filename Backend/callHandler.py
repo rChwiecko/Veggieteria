@@ -2,15 +2,23 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import subprocess
 import threading
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 lock = threading.Lock()
 
+# Define the path where your scripts are located
+SCRIPT_PATH = '/Users/alexdang/Desktop/Veggieteria/Backend'  # Update this path accordingly
+
 def run_script(script_name):
     try:
-        result = subprocess.run(['python', f'{script_name}.py'], capture_output=True, text=True)
+        script_full_path = os.path.join(SCRIPT_PATH, f'{script_name}.py')
+        if not os.path.isfile(script_full_path):
+            return {'error': f'Script {script_name}.py not found at {SCRIPT_PATH}'}
+        
+        result = subprocess.run(['python', script_full_path], capture_output=True, text=True)
         return {'output': result.stdout, 'error': result.stderr}
     except Exception as e:
         return {'error': str(e)}

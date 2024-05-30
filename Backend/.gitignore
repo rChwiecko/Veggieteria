@@ -1,3 +1,26 @@
 # Ignore Python bytecode files
 __pycache__/
 *.py[cod]
+# Ignore node_modules
+node_modules/
+
+# Ignore log files
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Ignore environment variables
+.env
+
+# Ignore OS-specific files
+.DS_Store
+
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Ignore other potential unnecessary files
+dist/
+build/
+coverage/
+.vscode/
