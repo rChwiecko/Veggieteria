@@ -25,7 +25,7 @@ def detect_veggie(image_frame):
         )
 
     # List of labels to check for
-    vegetable_labels = ['vegetable', 'carrot', 'broccoli', 'lettuce', 'tomato', 'pepper', 'cucumber', 'spinach', 'cabbage', 'onion']
+    vegetable_labels = ['vegetable', 'carrot', 'broccoli', 'lettuce', 'tomato', 'pepper', 'cucumber', 'spinach', 'cabbage', 'onion', 'baby carrot', 'squash', 'natural foods', 'wild carrot', 'produce']
 
     for label in labels:
         if any(veg in label.description.lower() for veg in vegetable_labels):

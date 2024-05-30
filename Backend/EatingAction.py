@@ -62,7 +62,7 @@ while cap.isOpened():
             if pose_results.pose_landmarks:
                 mouth = pose_results.pose_landmarks.landmark[mp_pose.PoseLandmark.MOUTH_LEFT]
                 distance = ((wrist.x - mouth.x) ** 2 + (wrist.y - mouth.y) ** 2) ** 0.5
-                if distance < 0.35:  # Adjust threshold as necessary
+                if distance < 0.52:  # Adjust threshold as necessary
                     eating_detected = True
 
     # Display eating detection result
