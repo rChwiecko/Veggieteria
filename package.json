@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@unique-nft/accounts": "^0.3.7",
+    "@unique-nft/sdk": "^0.7.5",
+    "dotenv": "^16.4.5"
+  }
+}
