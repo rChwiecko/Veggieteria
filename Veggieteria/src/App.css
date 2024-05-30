@@ -67,3 +67,47 @@ button{
   100% { transform: rotate(360deg); }
 }
 
+
+/* App.css */
+.coin-popup {
+  position: fixed;
+  bottom: 50%;
+  left: 20px;
+  color: rgb(104, 245, 255);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  opacity: 1;
+  animation: moveUpFadeOut 3s ease-in-out forwards;
+  z-index: 1000;
+}
+
+@keyframes moveUpFadeOut {
+  0% {
+      transform: translateY(0);
+      opacity: 1;
+  }
+  100% {
+      transform: translateY(-50px);
+      opacity: 0;
+  }
+}
+
+.display-screen {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  width: 90vw; 
+}
+
+.child-div-display {
+  flex: 1;
+  padding: 10px;
+  text-align: left;
+}
+
+.right-text {
+  padding-left: 10vw;
+}

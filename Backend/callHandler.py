@@ -1,17 +1,25 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import subprocess
+from flask_socketio import SocketIO, emit
 import threading
+from EatingAction import setAddr, main
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, supports_credentials=True)  # Enable CORS for all routes
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 lock = threading.Lock()
 
-def run_script(script_name):
+def run_script(script_name, param):
     try:
-        result = subprocess.run(['python', f'{script_name}.py'], capture_output=True, text=True)
-        return {'output': result.stdout, 'error': result.stderr}
+        if script_name == 'EatingAction':
+            main(socketio)  # Call the main function with the parameter
+            return {'output': 'EatingAction script executed successfully'}
+        elif script_name == 'SetAddr':
+            setAddr(param)
+            return {'output': 'Change addr ran'}
+        else:
+            return {'error': 'Invalid script name'}
     except Exception as e:
         return {'error': str(e)}
 
@@ -19,11 +27,12 @@ def run_script(script_name):
 def run_script_endpoint():
     data = request.json
     script_name = data.get('script_name')
+    param = data.get("wallet_addr")
     
-    if script_name in ['EatingAction', 'OtherScript']:  # Add more script names as needed
+    if script_name in ['EatingAction','SetAddr']:  # Add more script names as needed
         if lock.acquire(blocking=False):  # Try to acquire the lock without blocking
             try:
-                result = run_script(script_name)
+                result = run_script(script_name, param)
                 return jsonify(result)
             finally:
                 lock.release()  # Release the lock after the script finishes
@@ -33,4 +42,4 @@ def run_script_endpoint():
         return jsonify({'error': 'Invalid script name'}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)

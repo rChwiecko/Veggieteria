@@ -66,7 +66,15 @@ def transfer_tokens(substrate, keypair, asset_id, recipient_address, amount):
 # Asset details
 asset_id = 88228866
 mnemonic = "embody vivid region bright forum clay boost horror deal escape spider path"
-recipient_address = "5Gn99UhAbY2vrf59EnQD3j1WkcgpkpjcD5pRehyibNFiTqek"
+recipient_address = '5Gn99UhAbY2vrf59EnQD3j1WkcgpkpjcD5pRehyibNFiTqek' #considered the default address, users must enter their own however
+
+def setAddr(addr):
+    try:
+        global recipient_address
+        recipient_address = addr
+        return True
+    except:
+        return False
 
 # Initialize asset hub and keypair
 substrate = init_asset_hub()
@@ -79,13 +87,14 @@ print(f"Initial CarrotCoin balance: {initial_balance}")
 # Start video capture from the webcam
 cap = cv2.VideoCapture(0)
 
-def interval_check(start):
+def interval_check(start, socketio):
     global eating, coin_count, intervals
     if 3 * (intervals + 1) <= time.time() - start:
         intervals += 1
         print(f"Current coin count: {coin_count}")
         if eating:
             coin_count += 0.1
+            socketio.emit('coin_earned', {'coin_count': coin_count})
             eating = False
 
 # Get screen resolution
@@ -97,75 +106,123 @@ window_width = 640  # Adjust as necessary
 window_height = 480  # Adjust as necessary
 
 # Calculate the position for centering the window
-window_x = int((screen_width - window_width) / 2)
-window_y = int((screen_height - window_height) / 2)
+# Adjustments for window decorations (title bar, borders) can be included here if needed
+window_x = int((screen_width - window_width) / 2) - 200
+window_y = int((screen_height - window_height) / 2) - 140  # Adjusted for potential title bar height
 
-# Main event loop for eating session
-start = time.time()
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        break
+def main(socketio):
+    # Main event loop for eating session
+    start = time.time()
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-    # Convert the BGR image to RGB
-    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    rgb_frame.flags.writeable = False
+        # Convert the BGR image to RGB
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        rgb_frame.flags.writeable = False
 
-    # Process the frame with MediaPipe Pose and Hands
-    pose_results = pose.process(rgb_frame)
-    hands_results = hands.process(rgb_frame)
+        # Process the frame with MediaPipe Pose and Hands
+        pose_results = pose.process(rgb_frame)
+        hands_results = hands.process(rgb_frame)
 
-    # Draw pose landmarks
-    rgb_frame.flags.writeable = True
-    if pose_results.pose_landmarks:
-        mp.solutions.drawing_utils.draw_landmarks(
-            frame, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-
-    # Draw hand landmarks and check for eating action
-    eating_detected = False
-    if hands_results.multi_hand_landmarks:
-        for hand_landmarks in hands_results.multi_hand_landmarks:
+        # Draw pose landmarks
+        rgb_frame.flags.writeable = True
+        if pose_results.pose_landmarks:
             mp.solutions.drawing_utils.draw_landmarks(
-                frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+                frame, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
-            # Get the coordinates of the wrist (landmark 0) and thumb tip (landmark 4)
-            wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
-            thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
+        # Draw hand landmarks and check for eating action
+        eating_detected = False
+        if hands_results.multi_hand_landmarks:
+            for hand_landmarks in hands_results.multi_hand_landmarks:
+                mp.solutions.drawing_utils.draw_landmarks(
+                    frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
-            # Check if the thumb tip is near the mouth (landmark 9 on the pose model)
-            if pose_results.pose_landmarks:
-                mouth = pose_results.pose_landmarks.landmark[mp_pose.PoseLandmark.MOUTH_LEFT]
-                distance = ((wrist.x - mouth.x) ** 2 + (wrist.y - mouth.y) ** 2) ** 0.5
-                if distance < 0.52:  # Adjust threshold as necessary
-                    eating_detected = True
+                # Get the coordinates of the wrist (landmark 0) and thumb tip (landmark 4)
+                wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
+                thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
 
-    # Display the frame
-    cv2.imshow('Eating Action Detection', frame)
-    cv2.moveWindow('Eating Action Detection', window_x, window_y)
+                # Check if the thumb tip is near the mouth (landmark 9 on the pose model)
+                if pose_results.pose_landmarks:
+                    mouth = pose_results.pose_landmarks.landmark[mp_pose.PoseLandmark.MOUTH_LEFT]
+                    distance = ((wrist.x - mouth.x) ** 2 + (wrist.y - mouth.y) ** 2) ** 0.5
+                    if distance < 0.52:  # Adjust threshold as necessary
+                        eating_detected = True
 
+        # Display the frame
+        cv2.imshow('Eating Action Detection', frame)
+        cv2.moveWindow('Eating Action Detection', window_x, window_y)
 
-    if eating_detected and detect_veggie(frame):
-        eating = True
+        if eating_detected and detect_veggie(frame):
+            global eating
+            eating = True
 
-    interval_check(start)
+        interval_check(start, socketio)
 
-    # Break the loop if 'q' is pressed
-    if cv2.waitKey(1) & 0xFF == ord('q') or cv2.getWindowProperty('Eating Action Detection', cv2.WND_PROP_VISIBLE) < 1:
-        break
+        # Break the loop if 'q' is pressed
+        if cv2.waitKey(1) & 0xFF == ord('q') or cv2.getWindowProperty('Eating Action Detection', cv2.WND_PROP_VISIBLE) < 1:
+            break
 
-# Transfer the accumulated coins when the session ends
-if coin_count > 0:
-    print(f"Transferring {int(coin_count*10)} CarrotCoins to {recipient_address}")
-    transfer_result = transfer_tokens(substrate, keypair, asset_id, recipient_address, int(coin_count*10))
-    if transfer_result:
-        print("Transfer successful:", transfer_result)
-    else:
-        print("Transfer failed")
+    # Transfer the accumulated coins when the session ends
+    if coin_count > 0:
+        print(f"Transferring {int(coin_count*10)} CarrotCoins to {recipient_address}")
+        transfer_result = transfer_tokens(substrate, keypair, asset_id, recipient_address, int(coin_count*10))
+        if transfer_result:
+            print("Transfer successful:", transfer_result)
+        else:
+            print("Transfer failed")
 
-# Check final balance
-final_balance = check_balance(substrate, asset_id, recipient_address)
-print(f"Final CarrotCoin balance: {final_balance}")
+    # Check final balance
+    final_balance = check_balance(substrate, asset_id, recipient_address)
+    print(f"Final CarrotCoin balance: {final_balance}")
 
-# Release the capture and close windows
-cap.release()
-cv2.destroyAllWindows()
+    # Release the capture and close windows
+    cap.release()
+    cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    from flask import Flask, jsonify, request
+    from flask_cors import CORS
+    from flask_socketio import SocketIO, emit
+    import threading
+
+    app = Flask(__name__)
+    CORS(app)  # Enable CORS for all routes
+    socketio = SocketIO(app, cors_allowed_origins="*")
+
+    lock = threading.Lock()
+
+    def run_script(script_name, param):
+        try:
+            if script_name == 'EatingAction':
+                main(socketio)
+                return {'output': 'EatingAction script executed successfully'}
+            elif script_name == 'SetAddr':
+                setAddr(param)
+                return {'output': 'Change addr ran'}
+            else:
+                return {'error': 'Invalid script name'}
+        except Exception as e:
+            return {'error': str(e)}
+
+    @app.route('/run_script', methods=['POST'])
+    def run_script_endpoint():
+        data = request.json
+        script_name = data.get('script_name')
+        param = data.get("wallet_addr")
+        
+        if script_name in ['EatingAction', 'SetAddr']:  # Add more script names as needed
+            if lock.acquire(blocking=False):  # Try to acquire the lock without blocking
+                try:
+                    result = run_script(script_name, param)
+                    return jsonify(result)
+                finally:
+                    lock.release()  # Release the lock after the script finishes
+            else:
+                return jsonify({'error': 'Another script is currently running'}), 409
+        else:
+            return jsonify({'error': 'Invalid script name'}), 400
+
+    if __name__ == '__main__':
+        socketio.run(app, host='0.0.0.0', port=5000, debug=True)
