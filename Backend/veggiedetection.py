@@ -3,7 +3,7 @@ import cv2
 from google.cloud import vision
 import numpy as np
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/alexdang/Desktop/Veggieteria/Backend/veggiedetection-61937d395be7.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sauce/Veggieteria/Backend/veggiedetection-61937d395be7.json"
 
 def detect_veggie(image_frame):
     """Detects labels in the image frame and checks for the presence of vegetables."""
@@ -25,8 +25,12 @@ def detect_veggie(image_frame):
         )
 
     # List of labels to check for
-    vegetable_labels = ['vegetable', 'carrot', 'broccoli', 'lettuce', 'tomato', 'pepper', 'cucumber', 'spinach', 'cabbage', 'onion']
-
+    vegetable_labels =    ['vegetable', 'carrot', 'broccoli', 'lettuce', 'tomato', 'pepper', 
+    'cucumber', 'spinach', 'cabbage', 'onion', 'baby carrot', 'squash', 
+    'natural foods', 'wild carrot', 'produce', 'potato', 'garlic', 
+    'zucchini', 'cauliflower', 'pumpkin', 'peas', 'radish', 'celery', 
+    'eggplant']
+    print(labels)
     for label in labels:
         if any(veg in label.description.lower() for veg in vegetable_labels):
             return True

@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    const [loading, setLoading] = useState(false);
+    const [shopSession, setShopSession] = useState(false); 
+    const handleSessionClick = () => {
+        setLoading(true);
+        fetch('http://127.0.0.1:5000/run_script', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ script_name: 'EatingAction' }) // Update the script name accordingly
+        })
+        .then(response => response.json())
+        .then(data => {
+            setLoading(false);
+            if (data.error) {
+                console.error('Script error:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('There was an error running the script!', error);
+            setLoading(false);
+        });
+    };
+    const handleShopSessions = () => {
+        setShopSession(!shopSession)
+    }
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    return (
+        <>
+            <h1>Veggieteria</h1>
+            <div className="card">
+                {!loading && !shopSession && <button onClick={handleSessionClick}>
+                    Start session
+                </button>}
+                {!loading && !shopSession && <button onClick = {handleShopSessions}>
+                  Shop
+                </button>}
+            </div>
+            {shopSession && <div><div className='card'>Welcome to the shop!</div>
+                <button onClick={handleShopSessions}>back</button>
+            </div>}
+            {loading && <div className="spinner"></div>}
+        </>
+    );
+};
 
-export default App
+export default App;
