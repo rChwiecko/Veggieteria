@@ -1,17 +1,25 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon --experimental-modules --es-module-specifier-resolution=node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "@unique-nft/accounts": "^0.3.7",
+    "@unique-nft/schemas": "^0.1.6",
     "@unique-nft/sdk": "^0.7.5",
+    "@unique-nft/sr25519": "^0.0.2",
+    "@unique-nft/unique-mainnet-types": "^1003.70.0",
+    "bignumber.js": "^9.1.2",
     "dotenv": "^16.4.5"
-  }
+  },
+  "devDependencies": {
+    "@unique-nft/accounts": "^0.3.7",
+    "@unique-nft/substrate-client": "^0.11.7"
+  },
+  "description": ""
 }
