@@ -11,6 +11,9 @@ const App = () => {
     const [shopSession, setShopSession] = useState(false);
     const [coinCount, setCoinCount] = useState(0);
     const [totalCoinCount, setTotalCoinCount] = useState(0);
+    const [nftStoreStatus, setNftStoreStatus] = useState(false);
+    const [produceStoreStatus, setProduceStore] = useState(false);
+
 
     useEffect(() => {
         socket.on('coin_earned', data => {
@@ -69,6 +72,15 @@ const App = () => {
         setShopSession(!shopSession);
     };
 
+    const handleNftSessions = () => {
+        setNftStoreStatus(!nftStoreStatus);
+        setShopSession(!shopSession);
+    };
+
+    const handleProduceSessions = () => {
+        setProduceStore(!produceStoreStatus);
+        setShopSession(!shopSession);
+    };
     const handleChangeAddr = (event) => {
         event.preventDefault();
         const newAddr = event.target.elements.address.value;
@@ -105,7 +117,7 @@ const App = () => {
 
     return (
         <>
-            <h1>Veggieteria</h1>
+            <h1>VeggieTeria</h1>
             {awaitAddr && <div className='wallet-addr-form'>
                 <form onSubmit={handleChangeAddr}>
                     <label>
@@ -125,8 +137,22 @@ const App = () => {
             </div>}
             {shopSession && <div>
                 <div className='card'>Welcome to the shop!</div>
+                <div className='store-options'>
+                    <button onClick={handleNftSessions} className='nft-button'>NFT Store</button>
+                    <button onClick={handleProduceSessions} className='produce-button'>Produce Store</button>
+                </div>
                 <button onClick={handleShopSessions}>Back</button>
             </div>}
+            {nftStoreStatus && 
+                <div className='nft-store'>
+                    Welcome to the NFT store
+                </div>
+            }
+            {nftStoreStatus && 
+                <div className='nft-store'>
+                    Welcome to the NFT store
+                </div>
+            }
             {loading && 
             <div className='display-screen'>
                 <div className='show-coins child-div-display'>

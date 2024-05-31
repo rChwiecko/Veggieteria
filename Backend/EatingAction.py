@@ -113,7 +113,8 @@ window_y = int((screen_height - window_height) / 2) - 140  # Adjusted for potent
 def main(socketio):
     # Main event loop for eating session
     start = time.time()
-    while cap.isOpened():
+    running = True
+    while running and cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
@@ -160,9 +161,9 @@ def main(socketio):
 
         interval_check(start, socketio)
 
-        # Break the loop if 'q' is pressed
+        # Break the loop if 'q' is pressed or window is closed
         if cv2.waitKey(1) & 0xFF == ord('q') or cv2.getWindowProperty('Eating Action Detection', cv2.WND_PROP_VISIBLE) < 1:
-            break
+            running = False
 
     # Transfer the accumulated coins when the session ends
     if coin_count > 0:
@@ -180,3 +181,4 @@ def main(socketio):
     # Release the capture and close windows
     cap.release()
     cv2.destroyAllWindows()
+
