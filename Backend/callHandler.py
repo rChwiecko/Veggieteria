@@ -2,10 +2,10 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 import threading
-from EatingAction import setAddr, main
+from EatingAction import setAddr, main, check_balance, init_asset_hub
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)  # Enable CORS for all routes
+CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins for testing purposes
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 lock = threading.Lock()
@@ -17,7 +17,9 @@ def run_script(script_name, param):
             return {'output': 'EatingAction script executed successfully'}
         elif script_name == 'SetAddr':
             setAddr(param)
-            return {'output': 'Change addr ran'}
+            substrate = init_asset_hub()
+            acc_balance = check_balance(substrate, 88228866, param)  # Make sure check_balance returns a serializable value
+            return {'acc_balance': acc_balance, 'output': 'Change addr ran'}
         else:
             return {'error': 'Invalid script name'}
     except Exception as e:
@@ -29,7 +31,7 @@ def run_script_endpoint():
     script_name = data.get('script_name')
     param = data.get("wallet_addr")
     
-    if script_name in ['EatingAction','SetAddr']:  # Add more script names as needed
+    if script_name in ['EatingAction', 'SetAddr']:  # Add more script names as needed
         if lock.acquire(blocking=False):  # Try to acquire the lock without blocking
             try:
                 result = run_script(script_name, param)

@@ -57,7 +57,7 @@ button {
 
 .spinner {
   border: 16px solid #f3f3f3;
-  border-top: 16px solid #ff1a1a;
+  border-top: 16px solid #00ff00;
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -109,7 +109,7 @@ button {
   text-align: left;
 }
 
-.text-child{
+.text-child {
   background-color: #1a1a1a;
   border-radius: 4px;
 }
@@ -125,7 +125,7 @@ button {
 .wallet-addr-form input[type="text"] {
   padding: 0.5rem;
   margin-right: 1rem;
-  border: 1px solid #ff1a1a;
+  border: 1px solid #00ff00;
   border-radius: 5px;
   color: #000;
 }
@@ -140,7 +140,6 @@ button {
   flex: 1;
 }
 
-
 header {
   position: fixed;
   top: 0;
@@ -154,105 +153,32 @@ header {
 
 header h1 {
   margin: 0;
-  color: #ff1a1a;
+  color: #00ff00;
   text-align: center;
 }
-
 
 .main-content {
   padding-top: 6rem;
 }
 
-/* App.css */
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-button {
-  padding-bottom: 3px;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 1rem;
-  margin: 1rem 0;
-  background-color: #1a1a1a;
-  border-radius: 10px;
+.custom-card {
+  max-width: 345px;
+  margin: 2rem;
+  border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
-.read-the-docs {
-  color: #888;
+.custom-image {
+  height: 200px;  /* Adjust as needed */
+  object-fit: contain;
 }
 
-.spinner {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #ff1a1a;
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
-  margin: 20px auto;
+.custom-button {
+  background-color: grey;
+  color: white;
+  margin-top: 1rem;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.coin-popup {
-  position: fixed;
-  bottom: 50%;
-  left: 20px;
-  color: #ffcc00;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  opacity: 1;
-  animation: moveUpFadeOut 3s ease-in-out forwards;
-  z-index: 1000;
-}
-
-@keyframes moveUpFadeOut {
-  0% {
-    transform: transla
-  }
+.custom-button:hover {
+  background-color: darkgrey;
 }

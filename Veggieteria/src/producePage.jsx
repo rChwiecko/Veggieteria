@@ -4,15 +4,14 @@ import './App.css';
 
 function ImageCard({ image, index }) {
   const handleClick = () => {
-    const url = `https://uniquescan.io/opal/tokens/2852/${index + 1}`;
-    window.open(url, '_blank');
+    window.open(image.url, '_blank');
   };
 
   return (
     <Card className="custom-card">
       <CardMedia
         component="img"
-        height="140"
+        className="custom-image"
         image={image.src}
         alt={image.label}
       />
@@ -29,27 +28,19 @@ function ImageCard({ image, index }) {
 }
 
 // Import images manually
-import img1 from './assets/image1.png';
-import img2 from './assets/image2.png';
-import img3 from './assets/image3.png';
-import img4 from './assets/image4.png';
-import img5 from './assets/image5.png';
-import img6 from './assets/image6.png';
-import img7 from './assets/image7.png';
-import img8 from './assets/image8.png';
+import img1 from './Grocers/image1.png';
+import img2 from './Grocers/image2.png';
+import img3 from './Grocers/image3.png';
+import img4 from './Grocers/image4.png';
 
 const images = [
-  { src: img1, label: 'Image 1' },
-  { src: img2, label: 'Image 2' },
-  { src: img3, label: 'Image 3' },
-  { src: img4, label: 'Image 4' },
-  { src: img5, label: 'Image 5' },
-  { src: img6, label: 'Image 6' },
-  { src: img7, label: 'Image 7' },
-  { src: img8, label: 'Image 8' },
+  { src: img1, label: 'Image 1', url: 'https://www.walmart.com/' },
+  { src: img2, label: 'Image 2', url: 'https://www.costco.com/' },
+  { src: img3, label: 'Image 3', url: 'https://www.kroger.com/' },
+  { src: img4, label: 'Image 4', url: 'https://www.target.com/' },
 ];
 
-function ImageShop() {
+function ProduceShop() {
   return (
     <Box className="main-content">
       <Typography variant="h4" gutterBottom>
@@ -66,4 +57,4 @@ function ImageShop() {
   );
 }
 
-export default ImageShop;
+export default ProduceShop;

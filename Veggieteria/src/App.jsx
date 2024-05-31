@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './App.css';
-const socket = io('http://127.0.0.1:5000');
 import ImageShop from './storePage';
+import ProduceShop from './producePage';
+const socket = io('http://127.0.0.1:5000');
 
 const App = () => {
     const [awaitAddr, changeAwait] = useState(true);
@@ -45,26 +46,26 @@ const App = () => {
             },
             body: JSON.stringify({ script_name: 'EatingAction', wallet_addr: addr })
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setLoading(false);
-                setTotalCoinCount(coinCount);
-                setCoinCount(0);
-                if (data.error) {
-                    console.error('Script error:', data.error);
-                } else {
-                    console.log(data.output);
-                }
-            })
-            .catch(error => {
-                console.error('There was an error running the script!', error);
-                setLoading(false);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setLoading(false);
+            setTotalCoinCount(coinCount);
+            setCoinCount(0);
+            if (data.error) {
+                console.error('Script error:', data.error);
+            } else {
+                console.log(data.output);
+            }
+        })
+        .catch(error => {
+            console.error('There was an error running the script!', error);
+            setLoading(false);
+        });
     };
 
     const handleShopSessions = () => {
@@ -93,26 +94,27 @@ const App = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ script_name: 'SetAddr', wallet_addr: addr })
+            body: JSON.stringify({ script_name: 'SetAddr', wallet_addr: newAddr })  // Use newAddr here
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setLoading(false);
-                if (data.error) {
-                    console.error('Script error:', data.error);
-                } else {
-                    console.log(data.output);
-                }
-            })
-            .catch(error => {
-                console.error('There was an error running the script!', error);
-                setLoading(false);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setLoading(false);
+            if (data.error) {
+                console.error('Script error:', data.error);
+            } else {
+                setCoinCount(data.acc_balance);
+                console.log(data.acc_balance);
+            }
+        })
+        .catch(error => {
+            console.error('There was an error running the script!', error);
+            setLoading(false);
+        });
     };
 
     return (
@@ -155,6 +157,7 @@ const App = () => {
             )}
             {produceStoreStatus && (
                 <div className='produce-store'>
+                    <ProduceShop />
                     <button onClick={handleProduceSessions}>Back</button>
                 </div>
             )}
