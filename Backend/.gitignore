@@ -23,4 +23,5 @@ __pycache__/
 dist/
 build/
 coverage/
+__pycache__/
 .vscode/
