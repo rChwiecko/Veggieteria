@@ -1,3 +1,5 @@
+/* Global.css */
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,7 +7,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #121212; /* Dark background for red and black theme */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,11 +17,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #ff1a1a; /* Red link color */
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #e60000; /* Darker red on hover */
 }
 
 body {
@@ -28,11 +30,13 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #121212; /* Dark background */
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: #ff1a1a; /* Red color for headers */
 }
 
 button {
@@ -42,12 +46,14 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #1a1a1a; /* Dark button background */
+  color: #fff; /* White text color */
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #ff1a1a; /* Red border on hover */
+  background-color: #333; /* Slightly lighter background on hover */
 }
 button:focus,
 button:focus-visible {
@@ -60,7 +66,7 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: #e60000;
   }
   button {
     background-color: #f9f9f9;
