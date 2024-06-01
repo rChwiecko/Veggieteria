@@ -181,4 +181,3 @@ def main(socketio):
     # Release the capture and close windows
     cap.release()
     cv2.destroyAllWindows()
-

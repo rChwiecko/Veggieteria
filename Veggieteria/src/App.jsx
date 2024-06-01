@@ -14,6 +14,7 @@ const App = () => {
     const [totalCoinCount, setTotalCoinCount] = useState(0);
     const [nftStoreStatus, setNftStoreStatus] = useState(false);
     const [produceStoreStatus, setProduceStore] = useState(false);
+    const [addrLoading, setAddrLoading] = useState(false)
 
     useEffect(() => {
         socket.on('coin_earned', data => {
@@ -87,8 +88,8 @@ const App = () => {
         const newAddr = event.target.elements.address.value;
         changeAddr(newAddr);
         changeAwait(false);
-
-        setLoading(true);
+        
+        setAddrLoading(true);
         fetch('http://127.0.0.1:5000/run_script', {
             method: 'POST',
             headers: {
@@ -103,7 +104,7 @@ const App = () => {
             return response.json();
         })
         .then(data => {
-            setLoading(false);
+            setAddrLoading(false);
             if (data.error) {
                 console.error('Script error:', data.error);
             } else {
@@ -133,7 +134,7 @@ const App = () => {
                     </form>
                 </div>
             )}
-            {!awaitAddr && !nftStoreStatus && !produceStoreStatus && !loading && !shopSession && (
+            {!awaitAddr && !addrLoading && !nftStoreStatus && !produceStoreStatus && !loading && !shopSession && (
                 <div className="card main-menu">
                     <button onClick={handleSessionClick}>Start session</button>
                     <button onClick={handleShopSessions}>Shop</button>
@@ -161,7 +162,13 @@ const App = () => {
                     <button onClick={handleProduceSessions}>Back</button>
                 </div>
             )}
-            {loading && (
+            {addrLoading && (
+                <div className='child-div-display'>
+                    <div className="spinner"></div>
+                    <div>Connecting to your wallet...</div>
+                </div>
+            )}
+            {!addrLoading && loading && (
                 <div className='display-screen'>
                     <div className='show-coins child-div-display'>
                         Coins earned = {Math.round(coinCount * 10)}
